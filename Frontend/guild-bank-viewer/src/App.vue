@@ -21,7 +21,7 @@
         <!-- Title and buttons-->
         <div>
           <h1>Guild Bank Logs</h1>
-          <div class="testData">
+          <div v-if=devMode class="testData">
             <button button="button" @click="testData">Test Data</button>
           </div>
         </div>
@@ -122,7 +122,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
-
+const devMode = false; // Set to true to enable test data button
 
 function getSortedData(dataRef, sortState) {
   return computed(() => {
@@ -138,6 +138,7 @@ function getSortedData(dataRef, sortState) {
     });
   });
 }
+
 
 const pasteString = ref("");
 const items = ref([]);
@@ -156,11 +157,11 @@ const currentPageGold = ref(1);
 const itemsPerPage = 10;
 
 const totalPagesItems = computed(() => {
-  return Math.ceil(sortedRowsItems.value.length / itemsPerPage);
+  return Math.ceil(filteredItems.value.length / itemsPerPage);
 });
 
 const totalPagesGold = computed(() => {
-  return Math.ceil(sortedRowsGold.value.length / itemsPerPage);
+  return Math.ceil(filteredGold.value.length / itemsPerPage);
 });
 
 const paginatedItems = computed(() => {
@@ -182,13 +183,69 @@ const decodeData = () => {
   try {
     const json = atob(pasteString.value);
     const data = JSON.parse(json);
-    items.value = data.items;
-    gold.value = data.gold;
+
+    items.value = data.items ? Object.values(data.items).map(i => ({
+      ...i,
+      item: trimItem(i.item),
+      player: trimName(i.player),
+      type: decodeType(i.type),
+      timestamp: formatTimeAgo(i.time)
+    })) : [];
+
+
+    gold.value = data.gold ? Object.values(data.gold).map(i => ({
+      ...i,
+      player: trimName(i.player),
+      type: decodeType(i.type),
+      amount: convertToGold(i.amount),
+      timestamp: formatTimeAgo(i.time)
+    })) : [];
   }
   catch (error){
     console.error("Failed to decode data:", error);
   }
 }
+
+//#region Data formatting functions
+const decodeType = (type) => {
+  if (type === "d") return "Deposit";
+  if (type === "w") return "Withdrawal";
+  if (type === "r") return "Repair";
+  return type;
+}
+
+const trimName = (name) => {
+  const nameParts = name.split("-");
+  return nameParts[0];
+}
+
+const trimItem = (item) => {
+  // finds the first [ and captures everything until the first | or ]
+  const match = item.match(/\[([^|\]]+)/);
+  return match ? match[1] : item;
+}
+
+const convertToGold = (amount) => {
+  const gold = Math.floor(amount / 10000);
+  const restAfterGold = amount % 10000;
+
+  const silver = Math.floor(restAfterGold / 100);
+  const copper = restAfterGold % 100;
+
+  return `${gold}g ${silver}s ${copper}c`;
+};
+
+const formatTimeAgo = (hoursAgo) => {
+  if (hoursAgo < 1) return "Just now";
+  if (hoursAgo < 24) return `${Math.floor(hoursAgo)} hours ago`;
+  const days = Math.floor(hoursAgo / 24);
+  if (days < 30) return `${days} days ago`;
+  const months = Math.floor(days / 30);
+  if (months < 12) return `${months} months ago`;
+  const years = Math.floor(months / 12);
+  return `${years} years ago`;
+}
+//#endregion
 
 const testData = () => {
   const nameList = ["Solacaria", "Aitovo", "Ralkath", "Healmommy", "Kattlåda"];
