@@ -5,6 +5,11 @@ Run this before launching:<br>
 This is a small project i made for my guild to get a better interface for all guild bank info.<br>
 Combined with an ingame addon to supply the data.<br>
 
+<h3>Installing the addon</h3>
+Copy the folder from "<i>Backend/GuildBankViewer/</i>" into your wow addon folder.<br>
+So it should look something like this: <br>
+<strong>C:\World of Warcraft\_retail_\Interface\AddOns\GuildBankViewer</strong>
+
 
 <h1>How to use</h1><br>
 <strong>Step 1:</strong> Install the addon: <br>
