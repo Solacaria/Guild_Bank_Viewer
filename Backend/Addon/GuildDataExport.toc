@@ -1,0 +1,8 @@
+## Interface: 120000, 120001
+## Title: Guild Data Export
+## Author: Solacaria
+## Version: 1.0
+## SavedVariables: GuildDataExportDB
+## Retail: true
+
+GuildDataExport.lua
