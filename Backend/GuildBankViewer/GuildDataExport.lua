@@ -163,7 +163,8 @@ SlashCmdList["GUILDDATAEXPORT"] = function()
     for _, g in ipairs(data.gold) do
         if g.type == "deposit" then g.type = "d"
         elseif g.type == "withdraw" then g.type = "w"
-        elseif g.type == "repair" then g.type = "r" end
+        -- elseif g.type == "repair" then g.type = "r"
+        end
     end
 
     local json = SerializeTable(data)

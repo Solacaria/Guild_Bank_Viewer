@@ -186,8 +186,8 @@ const decodeData = () => {
 
     items.value = data.items ? Object.values(data.items).map(i => ({
       ...i,
-      item: trimItem(i.item),
-      player: trimName(i.player),
+      item: trimItem(i.item || ""),
+      player: trimName(i.player || ""),
       type: decodeType(i.type),
       timestamp: formatTimeAgo(i.time)
     })) : [];
@@ -195,7 +195,7 @@ const decodeData = () => {
 
     gold.value = data.gold ? Object.values(data.gold).map(i => ({
       ...i,
-      player: trimName(i.player),
+      player: trimName(i.player || ""),
       type: decodeType(i.type),
       amount: convertToGold(i.amount),
       timestamp: formatTimeAgo(i.time)
@@ -215,6 +215,8 @@ const decodeType = (type) => {
 }
 
 const trimName = (name) => {
+  // Guard against undefined/null values which can happen if data is malformed
+  if (!name || typeof name !== "string") return "";
   const nameParts = name.split("-");
   return nameParts[0];
 }
