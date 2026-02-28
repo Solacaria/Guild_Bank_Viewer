@@ -22,4 +22,3 @@ So it should look something like this: <br>
 <h3>Good to know</h3>
 <p>If you dont see any data in the <b>gold</b> table, you may have forgotten to click the gold tab ingame.<br> 
 Simply click it, let it load and then proceed from step 3</p>
-
