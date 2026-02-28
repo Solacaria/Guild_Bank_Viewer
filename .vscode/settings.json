@@ -17,5 +17,8 @@
     "Lua.diagnostics.globals": [
         "SlashCmdList",
         "GuildBankFrame"
-    ]
+    ],
+    "files.exclude": {
+        "**/.git": false
+    }
 }
