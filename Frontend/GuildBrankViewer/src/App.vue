@@ -122,7 +122,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
-const devMode = true; // Set to true to enable test data button
+const devMode = false; // Set to true to enable test data button
 
 function getSortedData(dataRef, sortState) {
   return computed(() => {

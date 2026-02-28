@@ -25,7 +25,7 @@ $commitMessage = Read-Host "Enter commit message"
 git commit -m "$commitMessage"
 
 Write-Host "Pushing dev to origin..."
-git push origin dev
+git push dev
 
 Write-Host "Switching to main..."
 git checkout main
@@ -34,7 +34,7 @@ Write-Host "Merging dev into main..."
 git merge dev
 
 Write-Host "Pushing main to origin..."
-git push origin main
+git push main
 
 Write-Host "Switching back to dev..."
 git checkout dev
